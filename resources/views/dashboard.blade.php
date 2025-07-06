@@ -5,7 +5,8 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    {{-- Welcome message --}}
+    <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
@@ -15,47 +16,54 @@
         </div>
     </div>
 
-
-  <div class="py-12">
+    {{-- Table Daftar Siswa --}}
+    <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <h3 class="text-lg font-bold mb-4">Daftar Siswa Terdaftar</h3>
+                    <h3 class="text-lg font-bold mb-4">
+                         Daftar Siswa Terdaftar
+                    </h3>
 
-                    <table class="table-auto w-full border-collapse border border-gray-300">
-                        <thead>
-                            <tr class="bg-gray-100">
-                                <th class="border p-2">#</th>
-                                <th class="border p-2">Nama</th>
-                                <th class="border p-2">Email</th>
-                                <th class="border p-2">Alamat</th>
-                                <th class="border p-2">Jenis Kelamin</th>
-                                <th class="border p-2">Agama</th>
-                                <th class="border p-2">Sekolah Asal</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($users as $user)
-                            <tr>
-                                <td class="border p-2">{{ $loop->iteration }}</td>
-                                <td class="border p-2">{{ $user->nama }}</td>
-                                <td class="border p-2">{{ $user->email }}</td>
-                                <td class="border p-2">{{ $user->alamat }}</td>
-                                <td class="border p-2">
-                                    {{ $user->jenis_kelamin == 0 ? 'Laki-laki' : 'Perempuan' }}
-                                </td>
-                                <td class="border p-2">{{ $user->agama }}</td>
-                                <td class="border p-2">{{ $user->sekolah_asal }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full table-auto border-collapse border border-gray-300">
+                            <thead>
+                                <tr class="bg-gray-100 text-sm text-gray-700">
+                                    <th class="border p-2">#</th>
+                                    <th class="border p-2">Nama</th>
+                                    <th class="border p-2">Email</th>
+                                    <th class="border p-2">Alamat</th>
+                                    <th class="border p-2">Jenis Kelamin</th>
+                                    <th class="border p-2">Agama</th>
+                                    <th class="border p-2">Sekolah Asal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($users as $user)
+                                    <tr class="text-sm">
+                                        <td class="border p-2 text-center">{{ $loop->iteration }}</td>
+                                        <td class="border p-2">{{ $user->nama }}</td>
+                                        <td class="border p-2">{{ $user->email }}</td>
+                                        <td class="border p-2">{{ $user->alamat }}</td>
+                                        <td class="border p-2">
+                                            {{ $user->jenis_kelamin == 0 ? 'Laki-laki' : 'Perempuan' }}
+                                        </td>
+                                        <td class="border p-2">{{ $user->agama }}</td>
+                                        <td class="border p-2">{{ $user->sekolah_asal }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="7" class="border p-4 text-center text-gray-500">
+                                            Belum ada siswa terdaftar.
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
 
                 </div>
             </div>
         </div>
     </div>
-    </div>
 </x-app-layout>
-
-

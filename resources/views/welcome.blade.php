@@ -16,9 +16,12 @@
     <nav class="px-8 py-5 flex justify-between items-center border-b border-gray-700">
         <h1 class="text-[30px] font-bold text-white tracking-wide">Penerimaan Mahasiswa Baru</h1>
         <div class="flex gap-3">
+             @guest
+            <a href="{{ route('dashboard') }}" class="px-4 py-2 border border-gray-500 text-white rounded hover:bg-gray-700 transition shadow">Dashboard</a>
+            @endguest
             @if ($isLoggedIn)
                 <a href="{{ route('dashboard') }}"
-                   class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition shadow">
+                class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition shadow">
                     Dashboard
                 </a>
                 <form method="POST" action="{{ route('logout') }}">
@@ -27,21 +30,28 @@
                         Logout
                     </button>
                 </form>
-            @else
+                @else
                 <a href="{{ route('login') }}"
-                   class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition shadow">
-                    Login
-                </a>
-                <a href="{{ route('register') }}"
-                   class="px-4 py-2 border border-gray-500 text-white rounded hover:bg-gray-700 transition shadow">
-                    Register
-                </a>
-            @endif
-        </div>
+                class="px-4 py-2 border border-gray-500 text-white rounded hover:bg-gray-700 transition shadow">
+                Login
+            </a>
+            <a href="{{ route('register') }}"
+            class="px-4 py-2 border border-gray-500 text-white rounded hover:bg-gray-700 transition shadow">
+            Register
+        </a>
+        @endif
+        @auth
+        <form method="POST" action="{{ route('logout') }}" class="inline">
+            @csrf
+            <button type="submit" class="px-4 py-2 border border-red-500 text-white rounded hover:bg-gray-700 transition shadow">Logout</button>
+        </form>
+        @endauth
+        
+    </div>
     </nav>
 </header>
 
-<main class="mt-20 text-center px-4">
+<main class="mt-[15rem] text-center px-4">
     <section class="max-w-3xl mx-auto">
         <h2 class="text-[60px] font-extrabold text-white leading-tight">
             Selamat Datang di Penerimaan Mahasiswa Baru

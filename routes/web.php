@@ -14,29 +14,27 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-
-// 🔷 Dashboard USER
+// 🔷 Dashboard USER (read-only)
 Route::middleware(['auth', 'verified'])->group(function () {
+
     Route::get('/dashboard', function () {
-        // ambil semua user dengan role user
+        // Ambil semua user dengan role user
         $users = User::where('role', 'user')->get();
 
         return view('dashboard', compact('users'));
     })->name('dashboard');
 
-    // profile routes
+    // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
 // 🔷 Dashboard ADMIN
-Route::middleware(['auth', 'is_admin'])->group(function () {
+Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/admin/dashboard', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
 });
-
 
 require __DIR__.'/auth.php';
