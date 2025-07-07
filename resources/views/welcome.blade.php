@@ -10,18 +10,15 @@
 <!-- @vite('resources/css/app.css') -->
 </head>
 
-<body class="bg-[#0F172A] text-gray-300 font-sans antialiased">
+<body class="bg-[#0F172A] text-gray-300 font-sans antialiased min-h-screen flex flex-col md-32">
 
 <header>
     <nav class="px-8 py-5 flex justify-between items-center border-b border-gray-700">
         <h1 class="text-[30px] font-bold text-white tracking-wide">Penerimaan Mahasiswa Baru</h1>
         <div class="flex gap-3">
-             @guest
-            <a href="{{ route('dashboard') }}" class="px-4 py-2 border border-gray-500 text-white rounded hover:bg-gray-700 transition shadow">Dashboard</a>
-            @endguest
-            @if ($isLoggedIn)
+            @auth
                 <a href="{{ route('dashboard') }}"
-                class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition shadow">
+                    class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition shadow">
                     Dashboard
                 </a>
                 <form method="POST" action="{{ route('logout') }}">
@@ -30,28 +27,26 @@
                         Logout
                     </button>
                 </form>
-                @else
+            @else
+                <a href="{{ route('dashboard') }}"
+                    class="px-4 py-2 border border-gray-500 text-white rounded hover:bg-gray-700 transition shadow">
+                    Dashboard
+                </a>
                 <a href="{{ route('login') }}"
-                class="px-4 py-2 border border-gray-500 text-white rounded hover:bg-gray-700 transition shadow">
-                Login
-            </a>
-            <a href="{{ route('register') }}"
-            class="px-4 py-2 border border-gray-500 text-white rounded hover:bg-gray-700 transition shadow">
-            Register
-        </a>
-        @endif
-        @auth
-        <form method="POST" action="{{ route('logout') }}" class="inline">
-            @csrf
-            <button type="submit" class="px-4 py-2 border border-red-500 text-white rounded hover:bg-gray-700 transition shadow">Logout</button>
-        </form>
-        @endauth
-        
-    </div>
+                    class="px-4 py-2 border border-gray-500 text-white rounded hover:bg-gray-700 transition shadow">
+                    Login
+                </a>
+                <a href="{{ route('register') }}"
+                    class="px-4 py-2 border border-gray-500 text-white rounded hover:bg-gray-700 transition shadow">
+                    Register
+                </a>
+            @endauth
+        </div>
     </nav>
 </header>
 
-<main class="mt-[15rem] text-center px-4">
+
+<main class="mt-[15rem] text-center px-4 flex-1">
     <section class="max-w-3xl mx-auto">
         <h2 class="text-[60px] font-extrabold text-white leading-tight">
             Selamat Datang di Penerimaan Mahasiswa Baru
@@ -90,9 +85,10 @@
     </section>
 </main>
 
-<footer class="mt-20 py-6 border-t border-gray-700 text-center text-sm text-gray-500">
+<footer class="mt-20 py-6 border-t border-gray-700 text-center text-sm text-gray-500 p-4 h-full max-h-1/4">
     &copy; 2025 Penerimaan Mahasiswa Baru. All rights reserved.
 </footer>
 
 </body>
 </html>
+    

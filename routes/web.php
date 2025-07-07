@@ -14,17 +14,18 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-// 🔷 Dashboard USER (read-only)
+// 🔷 Dashboard USER (read-only untuk semua)
+Route::get('/dashboard', function () {
+    $users = User::where('role', 'user')->get();
+
+    return view('dashboard', [
+        'users' => $users,
+        'isLoggedIn' => auth()->check(),
+    ]);
+})->name('dashboard');
+
+// 🔷 Profile (khusus login)
 Route::middleware(['auth', 'verified'])->group(function () {
-
-    Route::get('/dashboard', function () {
-        // Ambil semua user dengan role user
-        $users = User::where('role', 'user')->get();
-
-        return view('dashboard', compact('users'));
-    })->name('dashboard');
-
-    // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -38,3 +39,4 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
