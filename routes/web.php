@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminAuthController;
 use App\Models\User;
 
 // 🔷 Landing page
@@ -14,7 +15,17 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-// 🔷 Dashboard USER (read-only untuk semua)
+// 🔷 Admin Auth routes
+Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
+Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+
+// 🔷 Dashboard ADMIN
+Route::middleware(['auth', 'isAdmin'])->group(function () {
+    Route::get('/admin/dashboard', fn () => view('admin.dashboard'))->name('admin.dashboard');
+});
+
+// 🔷 Dashboard USER
 Route::get('/dashboard', function () {
     $users = User::where('role', 'user')->get();
 
@@ -24,19 +35,11 @@ Route::get('/dashboard', function () {
     ]);
 })->name('dashboard');
 
-// 🔷 Profile (khusus login)
+// 🔷 Profile (khusus user login)
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// 🔷 Dashboard ADMIN
-Route::middleware(['auth', 'isAdmin'])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
-});
-
 require __DIR__.'/auth.php';
-

@@ -14,7 +14,5 @@ class IsAdmin
         }
 
         abort(403, 'Unauthorized');
-
-        return $next($request);
     }
 }
